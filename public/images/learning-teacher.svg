@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="Teacher reviewing student progress on a dashboard">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff8ef"/>
+      <stop offset="45%" stop-color="#edf8f6"/>
+      <stop offset="100%" stop-color="#f1e9ff"/>
+    </linearGradient>
+    <linearGradient id="board" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f7f2ea"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="420" rx="28" fill="url(#bg3)"/>
+  <rect x="80" y="60" width="360" height="220" rx="20" fill="url(#board)" stroke="#d9cdb9"/>
+  <rect x="105" y="88" width="140" height="18" rx="9" fill="#11615c" opacity="0.9"/>
+  <rect x="105" y="120" width="300" height="12" rx="6" fill="#e8dfd2"/>
+  <rect x="105" y="142" width="250" height="12" rx="6" fill="#e8dfd2"/>
+  <rect x="105" y="170" width="110" height="70" rx="12" fill="#6d28d9" opacity="0.12"/>
+  <rect x="230" y="170" width="110" height="70" rx="12" fill="#11615c" opacity="0.12"/>
+  <rect x="355" y="170" width="50" height="70" rx="12" fill="#c96f2a" opacity="0.15"/>
+  <path d="M120 205h75M120 220h55M245 205h60M245 220h45" stroke="#6d28d9" stroke-width="5" stroke-linecap="round" opacity="0.45"/>
+  <path d="M245 248h45" stroke="#11615c" stroke-width="5" stroke-linecap="round" opacity="0.45"/>
+  <circle cx="500" cy="150" r="40" fill="#e8b896"/>
+  <path d="M460 190c10-30 52-42 76-24 20 14 24 42 10 60-16 22-54 26-76 8-10-8-16-22-10-36z" fill="#3d2b1f"/>
+  <circle cx="518" cy="228" r="11" fill="#e8b896"/>
+  <path d="M505 240h26l-12 72h-30z" fill="#6d28d9"/>
+  <rect x="468" y="188" width="64" height="8" rx="4" fill="#3d2b1f"/>
+  <circle cx="170" cy="310" r="28" fill="#f0b990"/>
+  <circle cx="250" cy="318" r="26" fill="#f4c9a8"/>
+  <circle cx="330" cy="312" r="27" fill="#d9a574"/>
+  <path d="M145 338c6-18 34-24 50-12 12 8 16 26 6 38-12 16-40 18-54 4-6-6-8-16-2-24z" fill="#4a3728"/>
+  <path d="M224 344c6-16 30-22 44-12 10 8 14 24 6 34-10 14-34 16-46 4-5-5-8-14-4-22z" fill="#2d3436"/>
+  <path d="M304 340c6-17 32-23 48-12 12 8 16 26 6 38-12 16-38 18-52 4-6-6-8-16-2-24z" fill="#5c3d2e"/>
+  <path d="M88 300h464" stroke="#11615c" stroke-width="3" opacity="0.15"/>
+</svg>

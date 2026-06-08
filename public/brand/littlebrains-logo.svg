@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Quizzora logo">
+  <defs>
+    <linearGradient id="qz-bg-legacy" x1="10" y1="8" x2="54" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1bb8a8"/>
+      <stop offset="0.55" stop-color="#0f6b64"/>
+      <stop offset="1" stop-color="#d4822f"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="52" height="52" rx="16" fill="url(#qz-bg-legacy)"/>
+  <circle cx="32" cy="29" r="13" fill="none" stroke="#ffffff" stroke-width="4.5"/>
+  <path d="M38 38 L44 44 L54 28" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="22" cy="21" r="2.2" fill="#ffe8c7"/>
+</svg>

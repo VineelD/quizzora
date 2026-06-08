@@ -1,0 +1,15 @@
+node_modules/
+.next/
+data/
+.env*.local
+npm-debug.log*
+littlecode-nextjs-portal-sqlite-images.zip
+
+logs/
+.env
+!.env.example
+!.env.stripe-test.example
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+

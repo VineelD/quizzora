@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="Student completing a digital quiz on a laptop">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#efe3ff"/>
+      <stop offset="50%" stop-color="#f8fbfa"/>
+      <stop offset="100%" stop-color="#dff7f2"/>
+    </linearGradient>
+    <linearGradient id="laptop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#374151"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#6d28d9" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#6d28d9" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="420" rx="28" fill="url(#bg2)"/>
+  <ellipse cx="320" cy="360" rx="210" ry="16" fill="#6d28d9" opacity="0.1"/>
+  <rect x="155" y="95" width="330" height="210" rx="18" fill="url(#laptop)"/>
+  <rect x="175" y="112" width="290" height="170" rx="10" fill="#fff"/>
+  <rect x="175" y="112" width="290" height="170" rx="10" fill="url(#glow)"/>
+  <rect x="195" y="135" width="120" height="14" rx="7" fill="#11615c" opacity="0.85"/>
+  <rect x="195" y="162" width="220" height="10" rx="5" fill="#d9cdb9"/>
+  <rect x="195" y="182" width="180" height="10" rx="5" fill="#d9cdb9"/>
+  <circle cx="205" cy="215" r="8" fill="#6d28d9"/>
+  <circle cx="235" cy="215" r="8" fill="#e5e7eb"/>
+  <circle cx="265" cy="215" r="8" fill="#e5e7eb"/>
+  <circle cx="295" cy="215" r="8" fill="#e5e7eb"/>
+  <rect x="195" y="240" width="90" height="24" rx="12" fill="#11615c"/>
+  <path d="M120 305h400l-24 28H144z" fill="#4b5563"/>
+  <circle cx="470" cy="118" r="42" fill="#f4c9a8"/>
+  <path d="M428 160c12-34 58-48 86-30 22 14 28 44 14 66-18 28-62 34-88 12-12-10-18-28-12-48z" fill="#2d3436"/>
+  <circle cx="498" cy="198" r="10" fill="#f4c9a8"/>
+  <path d="M488 208h20l-10 58h-24z" fill="#11615c"/>
+  <path d="M88 120l28-18 10 24-28 18z" fill="#9be7de"/>
+  <path d="M548 88l22 14-8 22-22-14z" fill="#c4b5fd"/>
+  <circle cx="108" cy="78" r="6" fill="#6d28d9" opacity="0.5"/>
+  <circle cx="552" cy="150" r="5" fill="#11615c" opacity="0.45"/>
+</svg>
