@@ -1,12 +1,32 @@
 ﻿# Quizzora
 
-**Repository:** [https://github.com/VineelD/quizzora](https://github.com/VineelD/quizzora)
+**Australian curriculum quizzes for secondary schools and families — open source, data hosted in Australia.**
 
-Open-source Australian curriculum ed-tech for secondary schools and families (Years 7–12, including VCE). Teachers generate curriculum-aligned quizzes and assign them to classes; students use an assignment-scoped Study Coach before graded work unlocks.
+**Live app:** **[https://quizzora.org](https://quizzora.org)** · **Source:** [github.com/VineelD/quizzora](https://github.com/VineelD/quizzora)
 
-**Hosted service:** [quizzora.org](https://quizzora.org) — operated by Mr Vineel Davuluri (ABN 41 833 153 799).  
-**License:** [AGPL-3.0](LICENSE) — see [docs/OPEN-SOURCE.md](docs/OPEN-SOURCE.md) for mission, self-host vs hosted, and what subscriptions fund.  
-**Source:** [https://github.com/VineelD/quizzora](https://github.com/VineelD/quizzora)
+Teachers generate curriculum-aligned quizzes (Years 7–12, including VCE) and assign them to classes. Students use an assignment-scoped Study Coach before graded work unlocks.
+
+**Maintainer:** Mr Vineel Davuluri (ABN 41 833 153 799) · **License:** [AGPL-3.0](LICENSE) — see [docs/OPEN-SOURCE.md](docs/OPEN-SOURCE.md)
+
+## Why Quizzora
+
+- **Australian curriculum** — ACARA-mapped topics through VCE; teachers pick year, subject, and subtopic
+- **Open source (AGPL-3.0)** — inspect the code, self-host, or contribute; subscriptions fund hosting, not a paywall on source
+- **Data in Australia** — managed service hosted on-premises in Australia ([privacy](docs/PRIVACY.md), [school DPA](docs/SCHOOL-DPA.md))
+- **Study Coach** — assignment-scoped coaching with integrity guardrails before the quiz unlocks
+
+## Try it
+
+| | |
+| --- | --- |
+| **Live demo** | [https://quizzora.org](https://quizzora.org) — register a school or family, or sign in |
+| **Pricing & trial** | [quizzora.org/pricing](https://quizzora.org/pricing) |
+| **School demo** | Email [support@quizzora.org](mailto:support@quizzora.org) |
+| **Marketing playbook** | [docs/MARKETING.md](docs/MARKETING.md) |
+
+### Screenshots (add later)
+
+Product screenshots for the README and GitHub social preview — capture educator console, student quiz, and Study Coach when ready.
 
 ## Mission
 

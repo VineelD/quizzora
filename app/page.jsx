@@ -76,16 +76,16 @@ export default async function HomePage({ searchParams }) {
 
           <section className="hero hero-with-visual landing-hero">
             <div className="hero-copy-block">
-              <p className="eyebrow">Australian curriculum assessment platform</p>
-              <h1>Create structured quizzes, collect student submissions, and track progress in one place.</h1>
+              <p className="eyebrow">Open-source Australian curriculum practice</p>
+              <h1>Every student deserves curriculum-aligned practice — with software schools can trust.</h1>
               <p className="hero-copy">
-                Teachers generate Year 7–12 assessments, assign them to classes, and instantly review completion and
-                marks. Students log in to a focused portal to complete their work with zero distractions.
+                Quizzora helps teachers assign Years 7–12 quizzes (including VCE) and gives students a focused Study
+                Coach before graded work unlocks. Open source under AGPL-3.0; hosted data stays on-premises in Australia.
               </p>
               <div className="row">
-                <span className="tag">Educator console</span>
-                <span className="tag">Student workspace</span>
-                <span className="tag">Server-side AI generation</span>
+                <span className="tag">Australian curriculum</span>
+                <span className="tag">Open source AGPL</span>
+                <span className="tag">Data in Australia</span>
               </div>
               <p className="muted landing-cta-links">
                 <Link href="/pricing">View pricing &amp; trial</Link>
