@@ -1,6 +1,7 @@
 {
-  "name": "year7-australia-quiz-builder",
+  "name": "quizzora",
   "version": "1.0.0",
+  "description": "Quizzora — open-source Australian curriculum ed-tech for secondary schools and families",
   "private": true,
   "type": "module",
   "scripts": {

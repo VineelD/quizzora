@@ -55,8 +55,8 @@ Open `http://127.0.0.1:3000`.
 
 Seeded demo credentials support username or email login:
 
-- Teacher: `teacher` / `LittleCode123!` (`Vineel Davuluri`)
-- Student: `student` / `LittleCode123!`
+- Teacher: `teacher` / `Quizzora123!` (`Vineel Davuluri`)
+- Student: `student` / `Quizzora123!`
 
 ## OpenAI configuration
 

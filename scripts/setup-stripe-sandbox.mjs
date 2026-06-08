@@ -236,7 +236,7 @@ for (const [key, value] of Object.entries(priceEnv)) {
 console.log("\nNext steps:");
 console.log("  1. Backup live STRIPE_* lines from .env.local");
 console.log("  2. Copy vars from .env.stripe-test.local into .env.local");
-console.log("  3. npm run build && restart LittleCode Next.js");
+console.log("  3. npm run build && restart Quizzora Next.js scheduled task");
 console.log("  4. Register a test school → Checkout with 4242 4242 4242 4242");
 if (webhook.existing && !webhook.secret) {
   console.log("  5. Set STRIPE_WEBHOOK_SECRET from the TEST webhook in Stripe Dashboard");

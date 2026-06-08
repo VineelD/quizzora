@@ -1,14 +1,17 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import ResetPasswordForm from "../../../components/ResetPasswordForm.jsx";
+import { OPERATOR_PRODUCT_NAME } from "../../../lib/operator.js";
 
 export default function ResetPasswordPage() {
   return (
     <main className="shell">
       <nav className="nav">
         <Link className="brand" href="/">
-          <span className="brand-mark">7</span>
-          <span>LittleCode Learning</span>
+          <span className="brand-mark" aria-hidden="true">
+            <img className="brand-logo" src="/brand/quizzora-logo.svg" alt="" width="28" height="28" />
+          </span>
+          <span>{OPERATOR_PRODUCT_NAME}</span>
         </Link>
       </nav>
 

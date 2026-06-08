@@ -134,7 +134,7 @@ Test mode is separate from live — use **test API keys** and **test price IDs**
 
 3. The script writes `.env.stripe-test.local` with all `STRIPE_*` vars for test mode.
 4. **Backup** live `STRIPE_*` lines in `.env.local`, then copy test vars from `.env.stripe-test.local`.
-5. `npm run build` and restart the LittleCode task.
+5. `npm run build` and restart the Quizzora Next.js scheduled task.
 6. Test Checkout with card `4242 4242 4242 4242` (any future expiry, any CVC).
 7. **Restore live keys** before accepting real payments.
 

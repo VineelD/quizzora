@@ -1,6 +1,6 @@
 # DNS and email for quizzora.org
 
-This guide covers pointing **quizzora.org** at your LittleCode server and verifying the domain in **Resend** for password-reset and auth email.
+This guide covers pointing **quizzora.org** at your Quizzora server and verifying the domain in **Resend** for password-reset and auth email.
 
 ## Prerequisites
 
