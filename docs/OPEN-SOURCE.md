@@ -55,7 +55,7 @@ Paying subscribers help keep the hosted instance reliable and the project active
 
 ## Contributing and sponsorship
 
-- **Code:** Use [issues and pull requests](https://github.com/VineelD/quizzora) on GitHub, or email [support@quizzora.org](mailto:support@quizzora.org) for private coordination.
+- **Code:** Contributions are welcome via [issues and pull requests](https://github.com/VineelD/quizzora). See [CONTRIBUTING.md](../CONTRIBUTING.md) for setup, AGPL terms, and PR guidelines. Email [support@quizzora.org](mailto:support@quizzora.org) for private coordination.
 - **Curriculum & pedagogy:** Feedback on Australian alignment (ACARA / VCAA) is especially welcome — see [CURRICULUM-SOURCE.md](./CURRICULUM-SOURCE.md).
 - **Sponsor via subscription:** Schools and families on quizzora.org directly fund hosting and development; there is no separate “donation tier” required.
 - **Self-host feedback:** Report deployment issues so Windows/IIS and env documentation improve for everyone.

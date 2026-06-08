@@ -14,12 +14,15 @@ Put Australian secondary curriculum practice in reach of every school and family
 
 Subscriptions on quizzora.org sustain hosting, OpenAI usage, and ongoing development — they do not restrict access to the source under AGPL.
 
+## Contributing
+
+Contributions are welcome via [GitHub issues and pull requests](https://github.com/VineelD/quizzora). See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup, AGPL contribution terms, and PR guidelines.
+
 ## Contribute and sponsor
 
 - Read [docs/OPEN-SOURCE.md](docs/OPEN-SOURCE.md) before deploying or modifying the code.
 - **Self-host:** follow [Run locally](#run-locally) and [Windows one-machine setup](#windows-one-machine-setup); production ops: [docs/WINDOWS-AUTO-START.md](docs/WINDOWS-AUTO-START.md).
 - **Hosted users:** a school or family plan on quizzora.org helps fund the shared platform; contact [support@quizzora.org](mailto:support@quizzora.org) for onboarding or demos.
-- **Code contributions:** email patches or open issues and pull requests on GitHub.
 
 ---
 
