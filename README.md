@@ -76,10 +76,10 @@ npm run dev
 
 Open `http://127.0.0.1:3000`.
 
-Seeded demo credentials support username or email login:
-
-- Teacher: `teacher` / `Quizzora123!` (`Vineel Davuluri`)
-- Student: `student` / `Quizzora123!`
+The first run creates an empty SQLite database schema only. No demo users,
+schools, classes, quizzes, submissions, or production data are seeded.
+Create accounts through the registration flow, or create platform users with
+the scripts in `scripts/` after setting secrets in your local environment.
 
 ## OpenAI configuration
 
@@ -132,6 +132,9 @@ Use `AUTH_COOKIE_SECURE=false` when testing over plain HTTP such as `http://exte
 ## Database
 
 The local SQLite database is created at `data/littlecode.sqlite` by default.
+The repository publishes schema and migration code only: do not commit files
+from `data/`, `*.sqlite`, SQLite WAL/SHM files, exports, backups, or other
+runtime data.
 
 Override with:
 
