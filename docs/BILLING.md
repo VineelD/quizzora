@@ -33,10 +33,10 @@ For broader Australia production readiness (privacy, breach response, accessibil
 ## Environment variables
 
 ```env
-STRIPE_SECRET_KEY=sk_live_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_PRICE_MONTHLY=price_...
-STRIPE_PRICE_YEARLY=price_...
+STRIPE_SECRET_KEY=replace-with-your-stripe-secret-key
+STRIPE_WEBHOOK_SECRET=replace-with-your-webhook-signing-secret
+STRIPE_PRICE_MONTHLY=replace-with-monthly-price-id
+STRIPE_PRICE_YEARLY=replace-with-yearly-price-id
 
 # Optional
 BILLING_TRIAL_DAYS=7

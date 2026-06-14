@@ -36,7 +36,7 @@ test("login accepts email or username with the correct password", () => {
     username: "login.teacher",
     password: "Teacher123!",
   });
-  const schoolId = teacher.school_id || db.getDefaultSchoolId();
+  const schoolId = teacher.school_id || db.ensureTestSchool().id;
 
   const byEmail = loginWithIdentifier("login.teacher@school.example", "Teacher123!", schoolId);
   const byUsername = loginWithIdentifier("login.teacher", "Teacher123!", schoolId);
@@ -50,7 +50,7 @@ test("login accepts email or username with the correct password", () => {
 });
 
 test("duplicate email is rejected within the same school", () => {
-  const schoolId = db.getDefaultSchoolId();
+  const schoolId = db.ensureTestSchool().id;
   db.createTeacherAccount({
     name: "First Teacher",
     email: "dup@school.example",
@@ -77,7 +77,7 @@ test("school admin can create students from the educator console", () => {
     name: "School Admin",
     email: "admin-educator@school.example",
     password: "Admin12345!",
-    schoolId: db.getDefaultSchoolId(),
+    schoolId: db.ensureTestSchool().id,
     role: "admin",
   });
 
@@ -97,7 +97,7 @@ test("school admin can create students from the educator console", () => {
 });
 
 test("duplicate derived username is rejected within the same school", () => {
-  const schoolId = db.getDefaultSchoolId();
+  const schoolId = db.ensureTestSchool().id;
   db.createTeacherAccount({
     name: "Asha Patel",
     email: "ash.patel@school.example",

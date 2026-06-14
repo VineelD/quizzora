@@ -37,6 +37,13 @@ test("super admin can be created and listed across schools", () => {
     email: "north-admin@north.test",
     password: "password12345",
   });
+  db.createSchoolWithAdmin({
+    schoolName: "West High",
+    schoolSlug: "west-high",
+    name: "West Admin",
+    email: "west-admin@west.test",
+    password: "password12345",
+  });
 
   const schools = superadmin.listSchoolsWithUserCounts();
   assert.ok(schools.length >= 2);

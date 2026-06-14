@@ -98,12 +98,12 @@ if (Test-Path $stripeTestEnv) {
     }
   }
 } else {
-  $out.Add("# STRIPE_SECRET_KEY=sk_test_...")
-  $out.Add("# STRIPE_WEBHOOK_SECRET=whsec_...")
-  $out.Add("# STRIPE_PRICE_MONTHLY=price_...")
-  $out.Add("# STRIPE_PRICE_YEARLY=price_...")
-  $out.Add("# STRIPE_PRICE_FAMILY_MONTHLY=price_...")
-  $out.Add("# STRIPE_PRICE_FAMILY_YEARLY=price_...")
+  $out.Add("# STRIPE_SECRET_KEY=replace-with-your-stripe-test-secret-key")
+  $out.Add("# STRIPE_WEBHOOK_SECRET=replace-with-your-test-webhook-secret")
+  $out.Add("# STRIPE_PRICE_MONTHLY=replace-with-test-monthly-price-id")
+  $out.Add("# STRIPE_PRICE_YEARLY=replace-with-test-yearly-price-id")
+  $out.Add("# STRIPE_PRICE_FAMILY_MONTHLY=replace-with-test-family-monthly-price-id")
+  $out.Add("# STRIPE_PRICE_FAMILY_YEARLY=replace-with-test-family-yearly-price-id")
 }
 
 Set-Content -Path $testEnv -Value ($out -join "`r`n") -Encoding UTF8

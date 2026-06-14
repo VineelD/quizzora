@@ -60,7 +60,7 @@ test("expired trial blocks access", () => {
 });
 
 test("active subscription grants access", () => {
-  const schoolId = db.getDefaultSchoolId();
+  const schoolId = db.ensureTestSchool().id;
   billing.updateSchoolBillingFromStripe({
     schoolId,
     status: "active",
@@ -273,7 +273,7 @@ test("duplicate plan selection includes pending scheduled plan", () => {
 });
 
 test("pending plan change is stored and cleared for schools", () => {
-  const schoolId = db.getDefaultSchoolId();
+  const schoolId = db.ensureTestSchool().id;
   const effectiveAt = new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString();
 
   billing.setSchoolPendingPlanChange({
@@ -368,7 +368,7 @@ test("resolveSubscriptionRenewalDate prefers trial end while trialing", () => {
 });
 
 test("auto-renew defaults on and syncs cancel_at_period_end from Stripe", () => {
-  const schoolId = db.getDefaultSchoolId();
+  const schoolId = db.ensureTestSchool().id;
   const periodEnd = new Date(Date.now() + 20 * 24 * 60 * 60 * 1000).toISOString();
 
   billing.updateSchoolBillingFromStripe({

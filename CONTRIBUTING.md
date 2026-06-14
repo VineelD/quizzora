@@ -53,7 +53,8 @@ Start the development server:
 npm run dev
 ```
 
-Open `http://127.0.0.1:3000`. Demo credentials are listed in the README.
+Open `http://127.0.0.1:3000`. A new local database starts empty; create test
+accounts through the registration flow or the account creation scripts.
 
 ## Pull request guidelines
 
