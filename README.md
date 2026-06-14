@@ -94,7 +94,7 @@ OPENAI_IMAGE_QUALITY=medium
 OPENAI_IMAGE_SIZE=1024x1024
 OPENAI_IMAGE_ENDPOINT=https://api.openai.com/v1/images/generations
 OPENAI_IMAGE_MODEL=dall-e-3
-AUTH_SECRET=replace-with-a-long-random-secret
+AUTH_SECRET=change-me
 AUTH_COOKIE_SECURE=false
 ```
 
