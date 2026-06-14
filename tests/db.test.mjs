@@ -420,7 +420,7 @@ test("past due assignments block submission when late work is disabled", () => {
     username: "dueteacher",
     password: "Teacher123!",
   });
-  const schoolId = db.getDefaultSchoolId();
+  const schoolId = db.ensureTestSchool().id;
   db.getDb().prepare("UPDATE schools SET allow_late_submissions = 0 WHERE id = ?").run(schoolId);
 
   const [klass] = db.getTeacherClasses(teacher.id);
@@ -526,7 +526,7 @@ test("audit logs list school activity for admins", () => {
     username: "auditteacher",
     password: "Teacher123!",
   });
-  const schoolId = teacher.school_id || db.getDefaultSchoolId();
+  const schoolId = teacher.school_id || db.ensureTestSchool().id;
 
   db.createStudentForTeacher({
     teacherId: teacher.id,
