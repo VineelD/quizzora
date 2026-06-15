@@ -2,7 +2,7 @@
 
 Last updated: June 2026.
 
-This document explains Quizzora’s open-source intent and how subscriptions relate to the project. It is **not legal advice** — read the [LICENSE](../LICENSE) and consult a lawyer for your own use.
+This document explains Quizzora’s open-source intent and how the hosted service is funded. It is **not legal advice** — read the [LICENSE](../LICENSE) and consult a lawyer for your own use.
 
 ## Mission
 
@@ -34,40 +34,31 @@ The canonical source is public on GitHub: **[https://github.com/VineelD/quizzora
 
 | | **[quizzora.org](https://quizzora.org)** (hosted) | **Self-host** |
 | --- | --- | --- |
-| Who runs it | Mr Vineel Davuluri (ABN 41 833 153 799), on-premises in Australia | You (school IT, family, or integrator) |
-| Setup | Register school or family; Stripe subscription optional after trial | Clone source, configure env, run on your Windows/Linux server |
+| Who runs it | Mr Vineel Davuluri (voluntary hobby project), on-premises in Australia | You (school IT, family, or integrator) |
+| Setup | Register school or family — free access | Clone source, configure env, run on your Windows/Linux server |
 | Data location | Operator premises in Australia ([data hosting notes](./AU-COMPLIANCE.md)) | Your chosen infrastructure |
 | AI & email | Operator-configured OpenAI and mail | Your API keys and SMTP |
-| Billing | Stripe subscriptions fund the hosted service | No Quizzora subscription required; you pay your own hosting and API costs |
+| Support | Optional voluntary donation (up to AUD $10 suggested); never required | No Quizzora subscription; you pay your own hosting and API costs |
 | Updates | Operator deploys | You pull/build/deploy |
 
 **Self-host quick start:** see [README.md](../README.md) (local dev) and [WINDOWS-AUTO-START.md](./WINDOWS-AUTO-START.md) / IIS sections in the README for production-style Windows deployment.
 
-## What subscriptions fund
+## How the hosted service is funded
 
-Subscriptions on quizzora.org are **not** a paywall on the source code. They sustain the **hosted** service that many schools and families prefer not to run themselves:
+The hosted service is **free** for schools and families. It is run voluntarily as a hobby to help learners understand curriculum concepts. Optional voluntary support (suggested maximum AUD $10) helps cover hosting and AI costs but is never required for access.
 
-1. **Hosting** — on-premises servers in Australia, backups, monitoring, and tunnel/DNS for quizzora.org.
-2. **AI** — OpenAI usage for quiz generation, Study Coach, and related features within plan limits.
-3. **Development** — curriculum updates, safety improvements, bug fixes, and new features for the shared codebase.
-
-Paying subscribers help keep the hosted instance reliable and the project actively maintained. Self-hosters contribute by running their own stack and, under AGPL, sharing modifications when they offer the software as a network service.
+Self-hosters contribute by running their own stack and, under AGPL, sharing modifications when they offer the software as a network service.
 
 ## Contributing and sponsorship
 
 - **Code:** Contributions are welcome via [issues and pull requests](https://github.com/VineelD/quizzora). See [CONTRIBUTING.md](../CONTRIBUTING.md) for setup, AGPL terms, and PR guidelines. Email [support@quizzora.org](mailto:support@quizzora.org) for private coordination.
 - **Curriculum & pedagogy:** Feedback on Australian alignment (ACARA / VCAA) is especially welcome — see [CURRICULUM-SOURCE.md](./CURRICULUM-SOURCE.md).
-- **Sponsor via subscription:** Schools and families on quizzora.org directly fund hosting and development; there is no separate “donation tier” required.
+- **Optional support:** Voluntary donations via an external link (configure `DONATION_URL` in `.env.local`) — appreciated but not required.
 - **Self-host feedback:** Report deployment issues so Windows/IIS and env documentation improve for everyone.
 
 ## Operator
 
-**Quizzora** is operated by **Mr Vineel Davuluri (ABN 41 833 153 799)**.  
+**Quizzora** is operated voluntarily as a hobby by **Mr Vineel Davuluri** (not a registered business).  
 Support: [support@quizzora.org](mailto:support@quizzora.org)
 
-
-## Open source and sole trader operation (not legal advice)
-
-Many Australian sole traders run open-source projects and paid hosted services under their personal name and ABN. Releasing code under **AGPL-3.0** does not prevent operating **quizzora.org** as a subscription-funded SaaS or treating that revenue as ordinary business income. Your tax, liability, and structure depend on your circumstances—confirm with a qualified accountant or lawyer.
 See also: [OPERATOR.md](./OPERATOR.md), [BILLING.md](./BILLING.md), [COMPETITIVE-POSITIONING.md](./COMPETITIVE-POSITIONING.md).
-

@@ -89,6 +89,11 @@ Set-Location $appPath
 Import-DotEnvFile -Path (Join-Path $appPath ".env.local")
 Ensure-OpenAiApiKey
 
+$ollamaCheck = Join-Path $appPath "scripts\check-ollama.ps1"
+if (Test-Path $ollamaCheck) {
+  Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ollamaCheck`" -PreWarm" -WindowStyle Hidden
+}
+
 $env:NODE_ENV = "production"
 $env:PORT = "3000"
 $env:HOSTNAME = "127.0.0.1"

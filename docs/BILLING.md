@@ -1,5 +1,7 @@
 # Subscriptions (Stripe)
 
+> **Default (June 2026):** `BILLING_FREE_ACCESS=true` — schools and families use Quizzora **free** with no Stripe checkout. The sections below apply only if you set `BILLING_FREE_ACCESS=false` and configure Stripe for paid subscriptions (legacy / self-hosted operators).
+
 Quizzora bills **per school**, not per user. Each new school or family gets a **7-day free trial** (configurable). A **card is required at signup** via Stripe Checkout; Stripe holds the card and **charges on day 7** unless the admin cancels anytime before then (Stripe Customer Portal).
 
 ## PCI / security notes (hosted Checkout)

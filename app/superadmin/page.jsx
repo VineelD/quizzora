@@ -3,6 +3,9 @@ import LogoutButton from "../../components/LogoutButton.jsx";
 import SessionIdentityBadge from "../../components/SessionIdentityBadge.jsx";
 import SiteFooter from "../../components/SiteFooter.jsx";
 import SuperAdminConsole from "../../components/SuperAdminConsole.jsx";
+import SuperAdminCurriculumDocs from "../../components/SuperAdminCurriculumDocs.jsx";
+import SuperAdminQuestionBank from "../../components/SuperAdminQuestionBank.jsx";
+import SuperAdminStudyCoachTest from "../../components/SuperAdminStudyCoachTest.jsx";
 import { requireSession } from "../../lib/auth.js";
 
 export default async function SuperAdminPage() {
@@ -34,6 +37,12 @@ export default async function SuperAdminPage() {
           support account. School admins and teachers still only see their own tenant.
         </p>
       </section>
+
+      <SuperAdminQuestionBank />
+
+      <SuperAdminCurriculumDocs />
+
+      <SuperAdminStudyCoachTest />
 
       <SuperAdminConsole />
 

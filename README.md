@@ -6,12 +6,12 @@
 
 Teachers generate curriculum-aligned quizzes (Years 7–12, including VCE) and assign them to classes. Students use an assignment-scoped Study Coach before graded work unlocks.
 
-**Maintainer:** Mr Vineel Davuluri (ABN 41 833 153 799) · **License:** [AGPL-3.0](LICENSE) — see [docs/OPEN-SOURCE.md](docs/OPEN-SOURCE.md)
+**Maintainer:** Mr Vineel Davuluri (voluntary hobby project) · **License:** [AGPL-3.0](LICENSE) — see [docs/OPEN-SOURCE.md](docs/OPEN-SOURCE.md)
 
 ## Why Quizzora
 
 - **Australian curriculum** — ACARA-mapped topics through VCE; teachers pick year, subject, and subtopic
-- **Open source (AGPL-3.0)** — inspect the code, self-host, or contribute; subscriptions fund hosting, not a paywall on source
+- **Open source (AGPL-3.0)** — inspect the code, self-host, or contribute; the hosted service is free with optional voluntary support
 - **Data in Australia** — managed service hosted on-premises in Australia ([privacy](docs/PRIVACY.md), [school DPA](docs/SCHOOL-DPA.md))
 - **Study Coach** — assignment-scoped coaching with integrity guardrails before the quiz unlocks
 
@@ -99,6 +99,23 @@ AUTH_COOKIE_SECURE=false
 ```
 
 If `OPENAI_API_KEY` is missing, over quota, or OpenAI returns invalid data, quiz creation fails with an error and no fallback quiz is assigned.
+
+### Off-prem / no-OpenAI mode (question bank + Onyx)
+
+For self-hosted deployments without paid OpenAI at request time:
+
+```bash
+DISABLE_OPENAI=true
+QUIZ_PROVIDER=question_bank          # serve teacher quizzes from SQLite question_bank_items
+STUDY_COACH_PROVIDER=onyx            # Study Coach chat via local Onyx Docker
+ONYX_API_BASE_URL=http://localhost:3001/api
+ONYX_API_KEY=your-admin-or-pat-key
+ONYX_PERSONA_ID=1                    # Quizzora Study Coach persona
+# ONYX_PROJECT_ID=                   # optional Onyx project scope
+OPENAI_IMAGE_GENERATION=false        # no diagram image API calls
+```
+
+Populate the question bank first (`node scripts/embed-question-bank.mjs` for embeddings; fill workers still use OpenAI unless you pre-load items). Study Coach uses Onyx RAG (curriculum File connector) instead of local Ollama/OpenAI chat.
 
 ## Async quiz generation
 

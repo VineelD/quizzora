@@ -94,15 +94,17 @@ export default function PrivacyPage() {
 
         <p>
 
-          We use third-party services only where necessary to operate the platform: Stripe for payment processing, email
+          We use third-party services only where necessary to operate the platform: email delivery (for example Resend or
 
-          delivery (for example Resend or configured SMTP) for transactional messages, and OpenAI for AI quiz generation
+          configured SMTP) for transactional messages, and OpenAI for AI quiz generation and study features. Optional
 
-          and study features. Data is sent to these providers only to perform the relevant function. Some providers may
+          voluntary support links may use separate payment providers if you choose to contribute. Data is sent to these
 
-          process data outside Australia. We take reasonable steps to protect personal information when using these
+          providers only to perform the relevant function. Some providers may process data outside Australia. We take
 
-          services. We do not sell personal information to third parties for marketing purposes.
+          reasonable steps to protect personal information when using these services. We do not sell personal information
+
+          to third parties for marketing purposes.
 
         </p>
 
@@ -152,29 +154,15 @@ export default function PrivacyPage() {
 
 
 
-        <h2>Payments (Stripe)</h2>
+        <h2>Voluntary support</h2>
 
         <p>
 
-          {OPERATOR_PRODUCT_NAME} processes school subscriptions using{" "}
+          {OPERATOR_PRODUCT_NAME} is free for schools and families. If you choose to make an optional voluntary
 
-          <a href="https://stripe.com/checkout" target="_blank" rel="noreferrer">
+          contribution via an external link (for example PayPal or Ko-fi), that payment is processed by the third-party
 
-            Stripe Checkout
-
-          </a>{" "}
-
-          and manages billing through{" "}
-
-          <a href="https://stripe.com/payments/customer-portal" target="_blank" rel="noreferrer">
-
-            Stripe Customer Portal
-
-          </a>
-
-          . We do not store or process raw card details (PAN) on our servers. PCI compliance for hosted card collection
-
-          is handled by Stripe.
+          provider — not stored on our servers. Contributions are never required for access.
 
         </p>
 

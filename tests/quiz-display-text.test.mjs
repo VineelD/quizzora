@@ -6,11 +6,31 @@ import {
   prepareQuizQuestionMarkdown,
   sanitizeQuizText,
   stripQuizMathPlaceholders,
+  unwrapProseInlineMathDelimiters,
 } from "../lib/quiz-display-text.js";
 import { normalizeQuizQuestionsForDisplay } from "../lib/question-display.js";
 import { renderQuizOptionMarkdownText } from "../lib/study-markdown-render.js";
 import { prepareStudyMessageMarkdown } from "../lib/study-message-content.js";
 import { renderStudyCoachMarkdownText } from "../lib/study-markdown-render.js";
+
+test("unwrapProseInlineMathDelimiters removes dollars from prose clauses", () => {
+  const raw =
+    "A household appliance operates at 240 V, and $0.30 per kWh, what is the monthly cost of running this appliance (30 days)?$";
+  const unwrapped = unwrapProseInlineMathDelimiters(raw);
+  assert.doesNotMatch(unwrapped, /\$0\.30 per kWh/i);
+  assert.match(unwrapped, /0\.30 per kWh, what is the monthly cost/i);
+  assert.doesNotMatch(unwrapped, /0\.30perkWh/i);
+});
+
+test("sanitizeQuizText preserves readable household energy question stems", () => {
+  const raw =
+    "A household appliance operates at 240 V, and $0.30 per kWh, what is the monthly cost of running this appliance (30 days)?$";
+  const prepared = sanitizeQuizText(raw);
+  assert.match(prepared, /A household appliance operates at 240 V/);
+  assert.doesNotMatch(prepared, /A h o u s e h o l d/);
+  assert.match(prepared, /0\.30 per kWh, what is the monthly cost/i);
+  assert.doesNotMatch(prepared, /0\.30perkWh/i);
+});
 
 test("sanitizeQuizText repairs glued word-problem spacing", () => {
   const prepared = sanitizeQuizText(

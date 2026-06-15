@@ -1,6 +1,7 @@
 "use client";
 
 import MermaidDiagram from "../MermaidDiagram.jsx";
+import CircuitDiagram from "./CircuitDiagram.jsx";
 import NumberLineDiagram from "./NumberLineDiagram.jsx";
 import RecursionTreeDiagram from "./RecursionTreeDiagram.jsx";
 
@@ -14,6 +15,10 @@ export default function DiagramSpecRenderer({ step, className = "" }) {
 
   if (spec?.diagramType === "number_line") {
     return <NumberLineDiagram className={className} spec={spec} />;
+  }
+
+  if (spec?.diagramType === "circuit") {
+    return <CircuitDiagram className={className} spec={spec} />;
   }
 
   const mermaidSource = String(step?.diagramMermaid || "").trim();

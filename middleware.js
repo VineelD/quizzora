@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 import {
+  hasMaintenanceBypass,
+  isMaintenanceModeEnabled,
+  isMaintenancePathAllowed,
+} from "./lib/maintenance-mode.js";
+import {
   hasValidStagingGateCookie,
   isStagingGateEnabled,
   isStagingGatePathAllowed,
@@ -80,6 +85,27 @@ function applySecurityHeaders(response) {
  * Uses the Host header (not nextUrl.hostname) so IIS/Cloudflare proxying to
  * 127.0.0.1 does not cause a redirect loop to the same URL.
  */
+function checkMaintenanceMode(request) {
+  if (!isMaintenanceModeEnabled() || hasMaintenanceBypass(request)) {
+    return null;
+  }
+
+  const pathname = request.nextUrl.pathname;
+  if (isMaintenancePathAllowed(pathname)) {
+    return null;
+  }
+
+  if (pathname.startsWith("/api/")) {
+    return NextResponse.json(
+      { error: "Site is under maintenance. Please try again later.", status: "maintenance" },
+      { status: 503 },
+    );
+  }
+
+  const maintenanceUrl = new URL("/maintenance", request.url);
+  return NextResponse.redirect(maintenanceUrl, 307);
+}
+
 function checkStagingGate(request) {
   if (!isStagingGateEnabled()) {
     return null;
@@ -106,6 +132,11 @@ function checkStagingGate(request) {
 }
 
 export function middleware(request) {
+  const maintenanceResponse = checkMaintenanceMode(request);
+  if (maintenanceResponse) {
+    return applySecurityHeaders(maintenanceResponse);
+  }
+
   const gateResponse = checkStagingGate(request);
   if (gateResponse) {
     return applySecurityHeaders(gateResponse);

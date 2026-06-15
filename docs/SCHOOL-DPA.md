@@ -5,7 +5,7 @@ This template is provided for convenience and is **not legal advice**. Have an A
 
 This Data Processing Addendum (“**DPA**”) forms part of the agreement between:
 - **School** (“Customer”, “Controller”), and
-- **Mr Vineel Davuluri** (ABN 41 833 153 799), trading as **Quizzora** (“Provider”, “Processor”)
+- **Mr Vineel Davuluri**, operating **Quizzora** as a voluntary hobby project (“Provider”, “Processor”)
 
 It applies to personal information processed in connection with the Quizzora service (“**Service**”).
 
@@ -118,7 +118,7 @@ Formal third-party certifications (ISO/SOC2/IRAP) are not guaranteed unless expl
 
 School privacy/security contact: _________________________  
 Provider privacy/security contact: **support@quizzora.org**  
-Provider legal entity: **Mr Vineel Davuluri** (ABN 41 833 153 799)
+Provider legal entity: **Mr Vineel Davuluri** (voluntary hobby project)
 
 ## 15) Signatures
 

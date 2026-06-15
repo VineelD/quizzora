@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isStudyCoachStreamingAvailable } from "../../../../lib/study-coach-llm.js";
 import { requireApiSession } from "../../../../lib/auth.js";
 import {
   getStudySession,
@@ -53,6 +54,7 @@ export async function GET(request) {
     messages: study.messages,
     openAiResponseId: study.openAiResponseId,
     quizSubmitted: study.quizSubmitted,
+    streamingEnabled: isStudyCoachStreamingAvailable(),
   });
 }
 

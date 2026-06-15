@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDb } from "../../../lib/db.js";
+import { isMaintenanceModeEnabled } from "../../../lib/maintenance-mode.js";
 import { getProductionReadiness } from "../../../lib/production.js";
 
 export const runtime = "nodejs";
@@ -16,10 +17,12 @@ export async function GET() {
   }
 
   const healthy = database && readiness.authSecret.ok;
+  const maintenance = isMaintenanceModeEnabled();
 
   return NextResponse.json(
     {
-      status: healthy ? "ok" : "degraded",
+      status: healthy ? (maintenance ? "maintenance" : "ok") : "degraded",
+      maintenance,
       timestamp: new Date().toISOString(),
       database,
       ...readiness,

@@ -8,7 +8,7 @@ This document is a **practical checklist** for operating Quizzora in production 
 
 | Field | Value |
 |-------|--------|
-| Legal operator | **Mr Vineel Davuluri** (ABN 41 833 153 799) |
+| Legal operator | **Mr Vineel Davuluri** (individual hobby project) |
 | Product | **Quizzora** |
 | Support contact | **support@quizzora.org** |
 

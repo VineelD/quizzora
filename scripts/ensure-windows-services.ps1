@@ -10,6 +10,8 @@
 # | LittleCode Next.js         | At system startup    | C:\LittleCode\start-littlecode.ps1     | 127.0.0.1:3000 prod |
 # | LittleCode Test Next.js    | At system startup    | C:\LittleCode-test\start-littlecode-test.ps1 | 127.0.0.1:3001 staging |
 # | LittleCode Prod DB Backup  | Daily 2:00 AM local  | C:\LittleCode\scripts\backup-prod-db.ps1 | prod SQLite only  |
+# | Quizzora Uptime Monitor    | Every 5 minutes      | node C:\LittleCode\scripts\uptime-check.mjs | email on /api/health failure |
+# | Onyx Ensure Standard Edition | At system startup (+60s delay) | C:\Onyx\scripts\ensure-standard-edition.ps1 | Onyx CE Standard on :3001 |
 #
 # Test DB backups are not scheduled (staging DB is disposable; see docs/TEST-ENVIRONMENT.md).
 
@@ -126,6 +128,18 @@ Register-QuizzoraNodeTask -TaskName "LittleCode Test Next.js" `
   -Description "Quizzora staging (test.quizzora.org) on port 3001"
 
 Register-ProdBackupTask
+
+$uptimeScript = Join-Path $prodRoot "scripts\register-uptime-monitor.ps1"
+if (Test-Path $uptimeScript) {
+  Write-Host "`n=== Uptime monitor ==="
+  & $uptimeScript
+}
+
+$onyxRegisterScript = "C:\Onyx\scripts\register-ensure-standard-edition.ps1"
+if (Test-Path $onyxRegisterScript) {
+  Write-Host "`n=== Onyx Standard edition (boot guard) ==="
+  & $onyxRegisterScript
+}
 
 if (-not $SkipIis) {
   Write-Host "`n=== IIS (reverse proxy) ==="

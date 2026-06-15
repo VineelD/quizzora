@@ -19,6 +19,12 @@ test("fixGluedWordProblemSpacing inserts space after numbers before letters", ()
   assert.equal(fixGluedWordProblemSpacing("$a_n = 2^n - 1$"), "$a_n = 2^n - 1$");
 });
 
+test("fixGluedWordProblemSpacing leaves normal English question stems untouched", () => {
+  const stem =
+    "A household appliance operates at 240 V, and 0.30 per kWh, what is the monthly cost of running this appliance (30 days)?";
+  assert.equal(fixGluedWordProblemSpacing(stem), stem);
+});
+
 test("normalizeQuizQuestionTextForDisplay strips internal markers and sanitizes math", () => {
   const raw = "\uE000MATH0\uE001What is $2 + 2$?";
   const normalized = normalizeQuizQuestionTextForDisplay(raw);

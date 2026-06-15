@@ -5,4 +5,7 @@ export async function register() {
 
   const { startQuizJobWorker } = await import("./lib/quiz-job-worker.js");
   startQuizJobWorker();
+
+  const { startQuestionBankWorker } = await import("./lib/question-bank-worker.js");
+  startQuestionBankWorker();
 }

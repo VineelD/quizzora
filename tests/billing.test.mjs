@@ -7,6 +7,7 @@ import { after, before, test } from "node:test";
 const tempDir = mkdtempSync(join(tmpdir(), "littlecode-billing-"));
 process.env.SQLITE_DATABASE_PATH = join(tempDir, "billing.sqlite");
 process.env.BILLING_TRIAL_DAYS = "7";
+process.env.BILLING_FREE_ACCESS = "false";
 
 const db = await import("../lib/db.js");
 const billing = await import("../lib/billing.js");
@@ -401,4 +402,28 @@ test("mapCancelAtPeriodEndFromStripe coerces Stripe boolean", () => {
   assert.equal(billing.mapCancelAtPeriodEndFromStripe(true), true);
   assert.equal(billing.mapCancelAtPeriodEndFromStripe(false), false);
   assert.equal(billing.mapCancelAtPeriodEndFromStripe(undefined), false);
+});
+
+test("free access mode grants access without Stripe or trial", () => {
+  const originalFreeAccess = process.env.BILLING_FREE_ACCESS;
+  process.env.BILLING_FREE_ACCESS = "true";
+
+  try {
+    const { school } = db.createSchoolWithAdmin({
+      schoolName: "Free Access School",
+      schoolSlug: "free-access-school",
+      name: "Admin",
+      email: "free-admin@free.example",
+      password: "Admin12345!",
+    });
+
+    const status = billing.getSchoolBilling(school.id);
+    assert.equal(status.status, "active");
+    assert.equal(status.hasAccess, true);
+    assert.equal(status.needsPayment, false);
+    assert.equal(status.pendingCheckout, false);
+    assert.equal(billing.isStripeConfigured(), false);
+  } finally {
+    process.env.BILLING_FREE_ACCESS = originalFreeAccess ?? "false";
+  }
 });

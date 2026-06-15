@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import AuthForm from "../components/AuthForm.jsx";
+import DonationNotice from "../components/DonationNotice.jsx";
 import LearningShowcase from "../components/LearningShowcase.jsx";
 import SiteFooter from "../components/SiteFooter.jsx";
 import { getSession } from "../lib/auth.js";
 import { getSchoolBilling } from "../lib/billing.js";
 import { getFamilyBilling } from "../lib/family-billing.js";
-import { OPERATOR_CONTACT_EMAIL, OPERATOR_PRODUCT_NAME } from "../lib/operator.js";
+import { OPERATOR_CONTACT_EMAIL, OPERATOR_PRODUCT_NAME, operatorContextLine, operatorDisplayLine } from "../lib/operator.js";
 
 export default async function HomePage({ searchParams }) {
   const user = await getSession();
@@ -20,12 +21,10 @@ export default async function HomePage({ searchParams }) {
     redirect("/support");
   }
   if (user?.role === "parent") {
-    const billing = user.family_id ? getFamilyBilling(user.family_id) : null;
-    redirect(billing?.pendingCheckout ? "/family/billing" : "/family");
+    redirect("/family");
   }
   if (user?.role === "admin") {
-    const billing = user.school_id ? getSchoolBilling(user.school_id) : null;
-    redirect(billing?.pendingCheckout ? "/admin/billing" : "/admin");
+    redirect("/admin");
   }
   if (user?.role === "teacher") {
     redirect("/teacher");
@@ -45,7 +44,7 @@ export default async function HomePage({ searchParams }) {
         </a>
         <div className="row">
           <Link className="button secondary" href="/pricing">
-            Pricing
+            Free access
           </Link>
           <span className="tag nav-tag">Educator and student portal</span>
         </div>
@@ -54,25 +53,27 @@ export default async function HomePage({ searchParams }) {
       <div className="landing-main-grid">
         <div className="landing-left-column">
           <section className="panel contact-panel landing-contact">
-            <p className="eyebrow">Contact</p>
-            <h2>Bring Quizzora to your school</h2>
+            <p className="eyebrow">Free for schools and families</p>
+            <h2>Bring Quizzora to your school or home</h2>
             <p className="hero-copy">
-              Start with a free trial or email{" "}
-              <a href={`mailto:${OPERATOR_CONTACT_EMAIL}`}>{OPERATOR_CONTACT_EMAIL}</a> for a demo walkthrough with your
-              leadership team.
+              Register at no cost — run by {operatorDisplayLine()} as a {operatorContextLine()}. Email{" "}
+              <a href={`mailto:${OPERATOR_CONTACT_EMAIL}`}>{OPERATOR_CONTACT_EMAIL}</a> for a demo walkthrough if you
+              would like one.
             </p>
             <div className="row">
               <a
                 className="button primary"
-                href={`mailto:${OPERATOR_CONTACT_EMAIL}?subject=Quizzora%20school%20demo`}
+                href={`mailto:${OPERATOR_CONTACT_EMAIL}?subject=Quizzora%20demo`}
               >
                 Request a demo
               </a>
               <Link className="button secondary" href="/pricing">
-                See pricing
+                Learn more
               </Link>
             </div>
           </section>
+
+          <DonationNotice className="panel donation-notice landing-donation" />
 
           <section className="hero hero-with-visual landing-hero">
             <div className="hero-copy-block">
@@ -85,10 +86,11 @@ export default async function HomePage({ searchParams }) {
               <div className="row">
                 <span className="tag">Australian curriculum</span>
                 <span className="tag">Open source AGPL</span>
+                <span className="tag">Free access</span>
                 <span className="tag">Data in Australia</span>
               </div>
               <p className="muted landing-cta-links">
-                <Link href="/pricing">View pricing &amp; trial</Link>
+                <Link href="/pricing">Access details &amp; optional support</Link>
                 {" · "}
                 <a href={`mailto:${OPERATOR_CONTACT_EMAIL}`}>Contact support</a>
               </p>

@@ -3,8 +3,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { parseFocusLabel } from "../lib/curriculum-topics.js";
 import {
-  hasDiagramSteps,
+  coachPayloadHasRenderableBody,
   isDiagramCapableStep,
+  isLikelyRawCoachJson,
+  isOnyxToolStubText,
   mapPortionsToSteps,
   parseStoredMessagePayload,
   stepsToPlainText,
@@ -19,7 +21,22 @@ import { resolveDiagramRenderMode } from "../lib/study-diagram-render.js";
 import { studyClientNarrationEnabled } from "../lib/study-narration-config.js";
 import { buildMessageContext } from "../lib/study-narration-situational.js";
 
-const CLIENT_NARRATION_ENABLED = studyClientNarrationEnabled();
+const clientNarrationEnabled = studyClientNarrationEnabled();
+
+const COACH_FORMAT_FALLBACK_INTRO =
+  "I had trouble formatting that explanation. Please try asking again in one sentence.";
+
+function isHiddenCoachStepText(text) {
+  const trimmed = String(text || "").trim();
+  return !trimmed || isLikelyRawCoachJson(trimmed) || isOnyxToolStubText(trimmed);
+}
+
+function filterRenderableSteps(steps) {
+  if (!Array.isArray(steps)) {
+    return [];
+  }
+  return steps.filter((step) => !isHiddenCoachStepText(step?.text));
+}
 
 function resolveHeroStep(steps) {
   if (!Array.isArray(steps) || !steps.length) {
@@ -293,7 +310,7 @@ function StudyPortionWalkthrough({
     [messageContext, situationalNarration],
   );
   const narrationEnabled =
-    CLIENT_NARRATION_ENABLED && interactive && portions.length > 0 && situationalResult.shouldOfferNarration;
+    clientNarrationEnabled && interactive && portions.length > 0 && situationalResult.shouldOfferNarration;
 
   const narration = useStudySyncedNarration({
     portions,
@@ -349,7 +366,7 @@ function StudyPortionWalkthrough({
       <StudyLessonHeader focus={focus} payload={payload} subject={subject} yearLevel={yearLevel} />
       <StudyKeyIdeas compact={storyMode} ideas={payload.keyIdeas} />
 
-      {started && CLIENT_NARRATION_ENABLED ? (
+      {started && clientNarrationEnabled ? (
         <StudyNarrationBar
           listenLabel="Listen to explanation"
           narration={narration}
@@ -468,7 +485,7 @@ function StudyStepWalkthrough({
     [messageContext, situationalNarration],
   );
   const narrationEnabled =
-    CLIENT_NARRATION_ENABLED && interactive && steps.length > 0 && situationalResult.shouldOfferNarration;
+    clientNarrationEnabled && interactive && steps.length > 0 && situationalResult.shouldOfferNarration;
 
   const narration = useStudySyncedNarration({
     activeIndex: visibleStep,
@@ -527,7 +544,7 @@ function StudyStepWalkthrough({
       <StudyLessonHeader focus={focus} payload={payload} subject={subject} yearLevel={yearLevel} />
       <StudyKeyIdeas compact ideas={payload.keyIdeas} />
 
-      {started && CLIENT_NARRATION_ENABLED ? (
+      {started && clientNarrationEnabled ? (
         <StudyNarrationBar
           listenLabel="Listen to explanation"
           narration={narration}
@@ -607,6 +624,41 @@ function StudyStepWalkthrough({
   );
 }
 
+function StudyCoachSummaryLayout({
+  entry,
+  payload,
+  subject,
+  yearLevel,
+  focus,
+  steps = [],
+  visualSequence = false,
+}) {
+  const heroStep = useMemo(() => resolveHeroStep(steps), [steps]);
+
+  return (
+    <div className="study-walkthrough study-walkthrough-complete study-story-layout">
+      <StudyLessonHeader focus={focus} payload={payload} subject={subject} yearLevel={yearLevel} />
+      <StudyKeyIdeas ideas={payload.keyIdeas} />
+      <StudyHeroFlash
+        activeIndex={0}
+        formulas={payload.formulas}
+        heroStep={heroStep}
+        steps={steps}
+        subject={subject}
+        visualSequence={visualSequence}
+      />
+      {payload.intro ? (
+        <StudyCoachMarkdown className="study-markdown study-walkthrough-intro study-story-intro">
+          {payload.intro}
+        </StudyCoachMarkdown>
+      ) : null}
+      {steps.map((step, index) => (
+        <StudyCoachStep index={index} showInlineDiagram={false} step={step} storyMode key={`${entry.id}-summary-${index}`} />
+      ))}
+    </div>
+  );
+}
+
 export default function StudyCoachMessage({
   entry,
   interactive = false,
@@ -619,7 +671,7 @@ export default function StudyCoachMessage({
 }) {
   const payload = entry.payload || parseStoredMessagePayload(entry);
   const portions = payload?.portions || [];
-  const steps = payload?.steps || [];
+  const steps = filterRenderableSteps(payload?.steps || []);
   const hasPortionWalkthrough = portions.length >= 1 && portions.some((portion) => portion.content?.trim());
 
   if (hasPortionWalkthrough) {
@@ -641,32 +693,53 @@ export default function StudyCoachMessage({
     );
   }
 
-  if (!payload?.steps?.length) {
-    const plainText = stepsToPlainText(payload) || String(entry.content || "").trim();
-    if (!plainText) {
-      return null;
+  if (payload?.steps?.length) {
+    if (!steps.length && !payload.intro?.trim() && !hasPortionWalkthrough) {
+      return (
+        <StudyCoachMarkdown className="study-markdown study-coach-plain">{COACH_FORMAT_FALLBACK_INTRO}</StudyCoachMarkdown>
+      );
     }
-    return <StudyCoachMarkdown className="study-markdown study-coach-plain">{plainText}</StudyCoachMarkdown>;
+
+    return (
+      <StudyStepWalkthrough
+        assignmentId={assignmentId}
+        entry={entry}
+        focus={focus}
+        interactive={interactive}
+        onStudyFileSaved={onStudyFileSaved}
+        payload={payload}
+        situationalNarration={situationalNarration}
+        steps={steps}
+        subject={subject}
+        yearLevel={yearLevel}
+      />
+    );
   }
 
-  return (
-    <StudyStepWalkthrough
-      assignmentId={assignmentId}
-      entry={entry}
-      focus={focus}
-      interactive={interactive}
-      onStudyFileSaved={onStudyFileSaved}
-      payload={payload}
-      situationalNarration={situationalNarration}
-      steps={steps}
-      subject={subject}
-      yearLevel={yearLevel}
-    />
-  );
+  if (coachPayloadHasRenderableBody(payload)) {
+    return (
+      <StudyCoachSummaryLayout
+        entry={entry}
+        focus={focus}
+        payload={payload}
+        steps={steps}
+        subject={subject}
+        visualSequence={Boolean(payload?.visualSequence)}
+        yearLevel={yearLevel}
+      />
+    );
+  }
+
+  const plainText = stepsToPlainText(payload) || String(entry.content || "").trim();
+  if (!plainText || isLikelyRawCoachJson(plainText)) {
+    return null;
+  }
+
+  return <StudyCoachMarkdown className="study-markdown study-coach-plain">{plainText}</StudyCoachMarkdown>;
 }
 
 function StudyCoachStep({ step, index, reveal = false, isCurrent = false, showInlineDiagram = false, storyMode = false }) {
-  const text = String(step.text || "").trim();
+  const text = isHiddenCoachStepText(step.text) ? "" : String(step.text || "").trim();
   if (!text && !step.title && !showInlineDiagram) {
     return null;
   }
@@ -686,7 +759,7 @@ function StudyCoachStep({ step, index, reveal = false, isCurrent = false, showIn
       ) : step.title ? (
         <h3 className="study-story-beat-title">{step.title}</h3>
       ) : null}
-      {text ? <StudyCoachMarkdown className="study-markdown study-step-text study-story-text">{step.text}</StudyCoachMarkdown> : null}
+      {text ? <StudyCoachMarkdown className="study-markdown study-step-text study-story-text">{text}</StudyCoachMarkdown> : null}
 
       {showInlineDiagram &&
       (step.imageUrl ||

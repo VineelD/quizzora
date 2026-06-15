@@ -8,7 +8,11 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import { isMermaidFenceLanguage } from "../lib/study-diagram-render.js";
 import { prepareQuizQuestionMarkdown } from "../lib/quiz-display-text.js";
-import { latexToUnicode, prepareStudyMessageMarkdown } from "../lib/study-message-content.js";
+import {
+  isAsciiDiagramContent,
+  latexToUnicode,
+  prepareStudyMessageMarkdown,
+} from "../lib/study-message-content.js";
 import MermaidDiagram from "./MermaidDiagram.jsx";
 import "katex/dist/katex.min.css";
 import "highlight.js/styles/github.min.css";
@@ -128,6 +132,11 @@ export default function StudyCoachMarkdown({
             if (isMermaidFenceLanguage(language)) {
               const source = codeNode?.children?.[0]?.value || "";
               return <MermaidDiagram className="study-inline-mermaid" source={source} />;
+            }
+
+            const fencedSource = codeNode?.children?.[0]?.value || "";
+            if (isQuiz && isAsciiDiagramContent(fencedSource)) {
+              return null;
             }
 
             return <pre {...props}>{children}</pre>;

@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   buildCoachPayload,
+  coachPayloadHasRenderableBody,
+  extractCoachJsonObject,
   hasVisualSequence,
   normalizeCoachPortions,
   normalizeStudyMessage,
@@ -228,6 +230,72 @@ test("stored message payload parses coach JSON from content when payloadJson is 
   assert.equal(payload.portions[0].label, "Concept in action");
   assert.match(payload.portions[0].content, /nucleus/);
   assert.equal(payload.steps.length, 1);
+});
+
+test("normalizeStudyMessage replaces raw JSON content when only formulas are present", () => {
+  const coachJson = {
+    topicHeader: "Energy",
+    formulas: [{ label: "Mass-energy", expression: "$E=mc^2$" }],
+    keyIdeas: ["Mass and energy are equivalent"],
+    portions: [],
+    steps: [],
+  };
+  const raw = JSON.stringify(coachJson);
+
+  const normalized = normalizeStudyMessage({
+    id: 7,
+    role: "assistant",
+    content: raw,
+    payloadJson: raw,
+  });
+
+  assert.doesNotMatch(normalized.content, /^\{/);
+  assert.equal(normalized.payload?.formulas.length, 1);
+  assert.equal(normalized.payload?.keyIdeas.length, 1);
+});
+
+test("stored message payload parses reply-only Onyx JSON from content", () => {
+  const payload = parseStoredMessagePayload({
+    content: JSON.stringify({
+      reply: "Friction opposes motion between surfaces.",
+      onTopic: true,
+      followUps: ["What affects friction?"],
+    }),
+    payloadJson: null,
+  });
+
+  assert.match(stepsToPlainText(payload), /Friction opposes motion/);
+  assert.ok(payload.steps.length >= 1 || payload.portions.length >= 1);
+});
+
+test("repairCoachJsonText fixes LaTeX backslashes inside JSON strings", async () => {
+  const { extractCoachJsonObject } = await import("../lib/study-message-payload.js");
+  const broken = `{"intro":"ok","formulas":[{"expression":"$a + b = c \\quad \\text{where } a > 0$"}],"portions":[{"id":"p1","content":"$-8 + 5$"}]}`;
+  assert.throws(() => JSON.parse(broken));
+  const parsed = extractCoachJsonObject(broken);
+  assert.ok(parsed);
+  assert.match(parsed.formulas[0].expression, /\\quad/);
+});
+
+test("extractCoachJsonObject strips markdown fences before parsing", () => {
+  const inner = {
+    intro: "Hook",
+    portions: [{ id: "p1", label: "Concept", content: "Main idea." }],
+  };
+  const parsed = extractCoachJsonObject("```json\n" + JSON.stringify(inner) + "\n```");
+  assert.equal(parsed?.portions?.length, 1);
+});
+
+test("coachPayloadHasRenderableBody detects formulas without steps", () => {
+  assert.equal(
+    coachPayloadHasRenderableBody({
+      formulas: [{ label: "Rule", expression: "$F=ma$" }],
+      keyIdeas: ["Force"],
+      portions: [],
+      steps: [],
+    }),
+    true,
+  );
 });
 
 test("normalizeStudyMessage attaches payload and plain content for DB-shaped first replies", () => {

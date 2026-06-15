@@ -50,6 +50,7 @@ function Get-CloudflareCidrs {
 function Remove-LittleCodeOriginRules {
   $names = @(
     "LittleCode - Loopback 3000,8080",
+    "LittleCode - Loopback 3000,3001,8080",
     "LittleCode - Cloudflare IPv4 80,443",
     "LittleCode - Cloudflare IPv6 80,443",
     "LittleCode - Allow loopback 3000,8080",
@@ -141,9 +142,9 @@ Write-Host "Replacing LittleCode origin rules..."
 Remove-LittleCodeOriginRules
 
 # Internal proxy chain: cloudflared -> IIS:8080 -> Node:3000
-Add-AllowRuleNetsh -Name "LittleCode - Loopback 3000,8080" `
+Add-AllowRuleNetsh -Name "LittleCode - Loopback 3000,3001,8080" `
   -RemoteIpList "127.0.0.1" `
-  -LocalPorts "3000,8080"
+  -LocalPorts "3000,3001,8080"
 
 # Public HTTP(S) only from Cloudflare (no catch-all Block rule; Block wins over Allow on Windows)
 Add-AllowRuleNetsh -Name "LittleCode - Cloudflare IPv4 80,443" `
@@ -155,7 +156,7 @@ Add-AllowRuleNetsh -Name "LittleCode - Cloudflare IPv6 80,443" `
   -LocalPorts "80,443"
 
 if (-not $WhatIf) {
-  Assert-RuleIsAllow -Name "LittleCode - Loopback 3000,8080"
+  Assert-RuleIsAllow -Name "LittleCode - Loopback 3000,3001,8080"
   Assert-RuleIsAllow -Name "LittleCode - Cloudflare IPv4 80,443"
   Assert-RuleIsAllow -Name "LittleCode - Cloudflare IPv6 80,443"
 }
@@ -180,7 +181,7 @@ if (-not $SkipDisableLegacy) {
 Write-Host ""
 Write-Host "Origin lockdown applied."
 Write-Host "  80/443    - allow Cloudflare IPs only (+ default deny)"
-Write-Host "  8080/3000 - allow localhost only"
+Write-Host "  8080/3000/3001 - allow localhost only"
 Write-Host ""
 Write-Host "Re-run this script when Cloudflare updates IP ranges."
 Write-Host "Docs: docs/DNS-QUIZZORA.md"

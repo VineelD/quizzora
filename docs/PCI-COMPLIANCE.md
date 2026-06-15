@@ -2,6 +2,8 @@
 
 Last updated: June 2026.
 
+> **Note:** The hosted quizzora.org service runs with `BILLING_FREE_ACCESS=true` (no in-app subscriptions). This document applies only if you enable paid Stripe billing (`BILLING_FREE_ACCESS=false`) or accept card payments for voluntary support through Stripe.
+
 Quizzora uses **Stripe-hosted Checkout** (customers are redirected to Stripe-hosted payment pages) plus **Stripe Customer Portal**. Quizzora’s server receives only **webhook events** and stores **non-sensitive billing metadata** (for example, subscription/customer IDs and an internal webhook audit log containing only event `id`/`type`).
 
 This document is meant to help you complete your own PCI compliance obligations for Stripe-backed billing. It does **not** claim full PCI certification from code alone—PCI compliance is a shared responsibility between Stripe and your business.
@@ -116,6 +118,7 @@ You must do (merchant + infrastructure):
 
 ## Related docs
 
+- `docs/HOST-SECURITY.md` (Windows firewall, exposed ports, origin hardening)
 - `docs/AU-COMPLIANCE.md` (Australia production checklist)
 - `docs/SCHOOL-DPA.md` (template DPA for schools)
 

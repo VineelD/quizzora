@@ -49,6 +49,7 @@ export default function StudentStudyCoach({
   const [context, setContext] = useState(null);
   const [followUps, setFollowUps] = useState(STARTER_PROMPTS.slice(0, 4));
   const [conversationSaved, setConversationSaved] = useState(false);
+  const [streamingEnabled, setStreamingEnabled] = useState(false);
   const [mathInputMode, setMathInputMode] = useState(false);
   const [speechCorrection, setSpeechCorrection] = useState(null);
   const [assignmentVocabExpanded, setAssignmentVocabExpanded] = useState(false);
@@ -274,6 +275,7 @@ export default function StudentStudyCoach({
     setProgress(payload.progress || null);
     setContext(payload.context || null);
     setConversationSaved(Boolean(payload.openAiResponseId) || (payload.messages || []).length > 1);
+    setStreamingEnabled(Boolean(payload.streamingEnabled));
     if (payload.progress?.unlocked) {
       onUnlocked?.();
     }
@@ -368,6 +370,61 @@ export default function StudentStudyCoach({
     }
   }, [messages, sending]);
 
+  async function consumeStudyStream(response, onPreview) {
+    if (!response.ok) {
+      let payload = {};
+      try {
+        payload = await response.json();
+      } catch {
+        // ignore
+      }
+      throw new Error(payload.error || "Could not send message.");
+    }
+
+    const reader = response.body?.getReader();
+    if (!reader) {
+      throw new Error("Study Coach returned an unexpected response. Please try again.");
+    }
+
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        break;
+      }
+
+      buffer += decoder.decode(value, { stream: true });
+      const events = buffer.split("\n\n");
+      buffer = events.pop() || "";
+
+      for (const event of events) {
+        const line = event.split("\n").find((entry) => entry.startsWith("data:"));
+        if (!line) {
+          continue;
+        }
+
+        let payload;
+        try {
+          payload = JSON.parse(line.slice(5).trim());
+        } catch {
+          continue;
+        }
+
+        if (payload.type === "token" && payload.preview) {
+          onPreview(payload.preview);
+        } else if (payload.type === "done") {
+          return payload;
+        } else if (payload.type === "error") {
+          throw new Error(payload.error || "Could not send message.");
+        }
+      }
+    }
+
+    throw new Error("Study Coach stream ended unexpectedly.");
+  }
+
   async function sendMessage(text) {
     const trimmed = String(text || message).trim();
     if (!trimmed || sending) {
@@ -381,6 +438,7 @@ export default function StudentStudyCoach({
     lastSentMessageRef.current = trimmed;
 
     const optimisticId = `pending-${Date.now()}`;
+    const streamingId = `streaming-${Date.now()}`;
     setMessages((current) => [
       ...current,
       { id: optimisticId, role: "student", content: trimmed, onTopic: null, flagged: false },
@@ -390,6 +448,40 @@ export default function StudentStudyCoach({
     const timeout = window.setTimeout(() => controller.abort(), STUDY_SEND_TIMEOUT_MS);
 
     try {
+      if (streamingEnabled) {
+        setMessages((current) => [
+          ...current,
+          { id: streamingId, role: "assistant", content: "", streaming: true, onTopic: null, flagged: false },
+        ]);
+
+        const response = await fetch("/api/student/study/stream", {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ assignmentId, message: trimmed }),
+          signal: controller.signal,
+        });
+
+        const payload = await consumeStudyStream(response, (preview) => {
+          setMessages((current) =>
+            current.map((entry) =>
+              entry.id === streamingId ? { ...entry, content: preview || entry.content } : entry,
+            ),
+          );
+        });
+
+        setMessages(payload.messages || []);
+        setProgress(payload.progress || null);
+        setConversationSaved(Boolean(payload.openAiResponseId) || (payload.messages || []).length > 1);
+        if (payload.followUps?.length) {
+          setFollowUps(payload.followUps);
+        }
+        if (payload.progress?.unlocked) {
+          onUnlocked?.();
+        }
+        return;
+      }
+
       const response = await fetch("/api/student/study", {
         method: "POST",
         credentials: "include",
@@ -421,7 +513,9 @@ export default function StudentStudyCoach({
         onUnlocked?.();
       }
     } catch (sendError) {
-      setMessages((current) => current.filter((entry) => entry.id !== optimisticId));
+      setMessages((current) =>
+        current.filter((entry) => entry.id !== optimisticId && entry.id !== streamingId),
+      );
       if (sendError?.name === "AbortError") {
         setError("Study Coach is taking longer than usual. Try a shorter prompt or tap one of the suggested buttons.");
       } else {
@@ -634,22 +728,28 @@ export default function StudentStudyCoach({
               <p className="study-scope-note">I focus on this assignment&apos;s topics — try asking about {context?.focus || "your lesson"}.</p>
             ) : null}
             {entry.role === "assistant" ? (
-              <StudyCoachMessage
-                assignmentId={assignmentId}
-                entry={entry}
-                focus={context?.focus}
-                interactive={entry.id === latestAssistantId}
-                onStudyFileSaved={onStudyFileSaved}
-                situationalNarration={entry.id === latestAssistantId ? situationalNarration : null}
-                subject={context?.subject || "Science"}
-                yearLevel={context?.yearLevel || ""}
-              />
+              entry.streaming ? (
+                <StudyCoachMarkdown className="study-markdown study-stream-preview">
+                  {entry.content || "…"}
+                </StudyCoachMarkdown>
+              ) : (
+                <StudyCoachMessage
+                  assignmentId={assignmentId}
+                  entry={entry}
+                  focus={context?.focus}
+                  interactive={entry.id === latestAssistantId}
+                  onStudyFileSaved={onStudyFileSaved}
+                  situationalNarration={entry.id === latestAssistantId ? situationalNarration : null}
+                  subject={context?.subject || "Science"}
+                  yearLevel={context?.yearLevel || ""}
+                />
+              )
             ) : (
               <StudyCoachMarkdown className="study-markdown study-user-message">{entry.content}</StudyCoachMarkdown>
             )}
           </article>
         ))}
-        {sending ? (
+        {sending && !messages.some((entry) => entry.streaming) ? (
           <div className="study-typing" aria-live="polite">
             <span className="study-typing-dot" />
             <span className="study-typing-dot" />

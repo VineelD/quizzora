@@ -35,6 +35,8 @@ test("buildStudyCoachSystemPrompt requires delimited math and formulas array", (
   assert.match(prompt, /formulas\[\]/);
   assert.match(prompt, /diagramSpec, diagramMermaid, or diagramPrompt/i);
   assert.match(prompt, /Never put diagram content in portion markdown/i);
+  assert.match(prompt, /physics circuits.*diagramSpec ONLY/i);
+  assert.match(prompt, /create a polished image file/i);
 });
 
 test("buildStudyCoachSystemPrompt lists explicit off-topic categories", () => {

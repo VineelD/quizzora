@@ -8,7 +8,7 @@ This guide is practical orientation only — **not legal advice**. For licensing
 
 ## Maintainer
 
-**Quizzora** is maintained by **Mr Vineel Davuluri** (ABN 41 833 153 799).  
+**Quizzora** is maintained by **Mr Vineel Davuluri** (voluntary hobby project).  
 Support: [support@quizzora.org](mailto:support@quizzora.org)
 
 ## License for contributions
